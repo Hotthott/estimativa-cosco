@@ -50,7 +50,29 @@ textarea{width:100%;padding:8px;border:1px solid var(--line);border-radius:8px;b
 /* ===== CONFIGURAÇÃO DO BANCO ONLINE (Firebase) =====
    Cole aqui os dois dados do seu projeto Firebase (veja LEIA-ME-ONLINE.txt):
    apiKey e projectId. Enquanto estiverem vazios, os dados ficam só neste navegador. */
-const FB={apiKey:"",projectId:"",colecao:"operacoes_cosco"};
+const FB={apiKey:"npm install firebase // Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyC-b6C5b9UnijfQF30_Wd9NRWRAUcIG3LY",
+  authDomain: "estimativa-cosco.firebaseapp.com",
+  projectId: "estimativa-cosco",
+  storageBucket: "estimativa-cosco.firebasestorage.app",
+  messagingSenderId: "938591111487",
+  appId: "1:938591111487:web:0dd754e4c45c51e915ab8a",
+  measurementId: "G-PZCH2RR6VS"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+
+",projectId:"",colecao:"operacoes_cosco"};
 /* ================================================== */
 const H=[{"n": "Vitoria", "i": "2026-08-06 14:35", "d": 0, "l": 400, "q": 400, "t": 2.0, "h": 14.4}, {"n": "Rizhao", "i": "2026-08-08 14:45", "d": 813, "l": 962, "q": 1401, "t": 1.71, "h": 117.2}, {"n": "Shanghai", "i": "2026-08-13 21:00", "d": 713, "l": 2545, "q": 1536, "t": 1.75, "h": 139.3}, {"n": "Brazil", "i": "2026-09-19 13:45", "d": 0, "l": 1716, "q": 264, "t": 2.0, "h": 15.0}, {"n": "Itaqui", "i": "2026-09-20 22:05", "d": 947, "l": 514, "q": 1461, "t": 1.09, "h": 134.6}, {"n": "Suape", "i": "2026-10-05 10:00", "d": 870, "l": 550, "q": 1426, "t": 1.75, "h": 139.8}, {"n": "Taicang", "i": "2026-10-13 20:40", "d": 726, "l": 677, "q": 1546, "t": 1.56, "h": 152.3}, {"n": "Itajai", "i": "2026-10-20 13:55", "d": 482, "l": 462, "q": 632, "t": 1.0, "h": 81.1}, {"n": "Itapoa", "i": "2026-10-27 20:40", "d": 731, "l": 974, "q": 1455, "t": 1.39, "h": 100.9}, {"n": "Qingdao", "i": "2026-11-01 21:20", "d": 862, "l": 0, "q": 862, "t": 1.5, "h": 64.7}];
 const BOUND=[1,7,13,19],NXT={1:7,7:13,13:19,19:1};
