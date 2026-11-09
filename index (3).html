@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="pt-BR"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Estimativa operacional – navios COSCO</title>
+<meta name="description" content="Estimativa de tempo operacional de navios de contêiner COSCO">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27%3E🚢%3C/text%3E%3C/svg%3E">
+<style>
+:root{--bg:#f3f7f5;--card:#fff;--fg:#0f2a3a;--mut:#58707a;--line:#d6e3dc;--acc:#00a650;--accd:#00803f;--accbg:#e2f5ea;--h:#0b3c5d;--warn:#fff4dc;--warnfg:#6b4a00;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0a1a21;--card:#112630;--fg:#e8f1ee;--mut:#8fa9a2;--line:#22424a;--acc:#2fd27a;--accd:#1b8f55;--accbg:#123a2b;--h:#8fe3b0;--warn:#3a2f12;--warnfg:#f0d08a;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0a1a21;--card:#112630;--fg:#e8f1ee;--mut:#8fa9a2;--line:#22424a;--acc:#2fd27a;--accd:#1b8f55;--accbg:#123a2b;--h:#8fe3b0;--warn:#3a2f12;--warnfg:#f0d08a;color-scheme:dark}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
+main{max-width:980px;margin:0 auto;padding:16px}
+h1{font-size:20px;margin:4px 0 2px}h2{font-size:16px;margin:0 0 10px;color:var(--h)}.sub{color:var(--mut);margin:0 0 14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;margin-bottom:14px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+label{display:block;font-size:12px;color:var(--mut);margin-bottom:4px}
+input,select{width:100%;padding:8px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--fg);font:inherit}
+button{padding:8px 12px;border:1px solid var(--accd);border-radius:8px;background:var(--accd);color:#fff;font:inherit;cursor:pointer}button:hover{filter:brightness(1.12)}
+.rg{display:grid;grid-template-columns:1fr 1fr 90px auto;gap:8px;margin-bottom:8px;align-items:end}
+.sc{border:1px solid var(--line);border-radius:12px;padding:12px;text-align:center}.sc.p{background:var(--accbg);border-color:var(--acc)}
+.sc b{display:block;font-size:26px}.sc small{color:var(--mut)}.tag{font-size:12px;font-weight:600;color:var(--mut);text-transform:uppercase;letter-spacing:.04em}
+.warn{background:var(--warn);color:var(--warnfg);border-radius:10px;padding:10px 12px;font-size:13px;margin-top:12px}
+.sx{overflow-x:auto;max-height:420px;overflow-y:auto}table{border-collapse:collapse;width:100%;font-size:13px}
+th,td{padding:6px 8px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}th:first-child,td:first-child{text-align:left}
+th{position:sticky;top:0;background:var(--card);color:var(--mut);font-weight:600}td input{min-width:70px;padding:5px}td select{width:64px;padding:5px}
+details summary{cursor:pointer;font-weight:600}.note{font-size:12px;color:var(--mut)}.sum{margin:12px 0 0;font-weight:600}
+.rl td{background:var(--accbg)}td input.re{width:80px;min-width:80px}#relat h3{margin:14px 0 6px;font-size:14px}.bar{display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap}@media print{main>section:not(#relat),main>.brand{display:none!important}.noprint{display:none!important}body{background:#fff;color:#000}#relat{border:0;padding:0}}
+body.ro main input,body.ro main select{pointer-events:none;opacity:.7}
+textarea{width:100%;padding:8px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--fg);font:12px/1.3 ui-monospace,Consolas,monospace}
+.brand{background:linear-gradient(100deg,#062235,#00703a);color:#fff;border-radius:14px;padding:16px 18px;margin-bottom:14px}.brand small{display:block;letter-spacing:.14em;text-transform:uppercase;font-size:11px;color:#9fe8bd}.brand h1{margin:3px 0 4px;font-size:21px;color:#fff}.brand p{margin:0;opacity:.92;font-size:14px}
+</style></head><body><main>
+<div class="brand"><small>Log-In Logística Integrada</small><h1>Estimativa operacional – navios de contêiner COSCO</h1><p>Informe o início, as unidades por tipo e os períodos de ternos. O sistema converte bundles em movimentos e simula turno a turno.</p></div>
+<p class="note" id="sync">Modo individual: os dados ficam salvos só neste navegador.</p>
+<section class="card"><div class="grid"><div><label for="nav">Navio / viagem</label><input id="nav" type="text" placeholder="ex.: GREEN QINGDAO V.8"></div><div><label for="ini">Início da operação</label><input id="ini" type="datetime-local"></div>
+<div><label for="ter">Ternos padrão (turnos não definidos)</label><select id="ter"><option>1</option><option selected>2</option><option>3</option></select></div><div><label for="par">Paralisação por período (min)</label><input id="par" type="number" min="0" max="120" value="30"></div><div><label for="pea">Peação/despeação (min por período)</label><input id="pea" type="number" min="0" max="120" value="0"></div><div><label for="mr1">1ª maré de saída: de</label><input id="mr1" type="datetime-local"></div><div><label for="mr1f">1ª maré: até</label><input id="mr1f" type="datetime-local"></div><div><label for="mr2">2ª maré (opcional): de</label><input id="mr2" type="datetime-local"></div><div><label for="mr2f">2ª maré: até</label><input id="mr2f" type="datetime-local"></div></div>
+<div class="sx" style="margin-top:12px;max-height:none"><table><thead><tr><th>Tipo de contêiner</th><th>Descarga cheios</th><th>Descarga vazios</th><th>Embarque cheios</th><th>Embarque vazios</th><th>Restow (un.)</th><th>Bundle (emb. vazios)</th></tr></thead><tbody id="tipos"></tbody></table></div>
+<p class="note">Bundles valem só para o embarque de vazios; descarga (cheios ou vazios) e embarque de cheios contam 1 unidade = 1 movimento. Bundles informados: tipo 48 = 7, 40FM = 6, 40FH = 4. O 40FR em 1 é suposição; edite se necessário. Restow: cada unidade conta 2 movimentos, sem bundle. Em Atividade, escolha o turno em que cada bundle embarca: nele a produção em unidades fica multiplicada pelo bundle. Bundles sem turno escolhido são feitos ao final. Os ternos de cada turno são definidos na tabela de simulação abaixo.</p></section>
+<section class="card" id="opsc" hidden><h2>Operações compartilhadas com a equipe (até 5)</h2><p class="note">Todos que abrirem este endereço veem as mesmas operações. Depois de salvar, as alterações da operação aberta são gravadas sozinhas e os colegas as recebem em até ~20 s.</p><div class="bar"><button id="svop" type="button">Salvar operação atual</button><button id="nwop" type="button">Nova operação</button></div><p class="note" id="opmsg"></p><div class="sx" style="max-height:none" id="ops"></div></section>
+<section class="card"><h2>Resultado</h2><div class="bar"><button id="rel" type="button">Gerar relatório</button><button id="dvg" type="button">Divulgar resultado</button><button id="clr" type="button">Limpar tudo</button></div><div class="grid" id="res"></div><p class="sum" id="red"></p><div class="warn" id="aviso"></div></section>
+<section class="card"><h2>Andamento da operação</h2><div class="grid" id="prog"></div><div id="mares" style="margin-top:14px"></div></section>
+<section class="card"><h2>Ternos, atividade e simulação por turno (cenário provável)</h2><div class="sx" id="tab"></div></section>
+<section class="card"><details><summary>Base histórica (10 navios, ago–nov/2026)</summary><div class="sx" id="his" style="margin-top:10px"></div>
+<p class="note">Movimentos equivalentes = descarga + embarque com bundles (tipo 48 ÷ 7, 40FM ÷ 6) + movimentos extras (reestivas, quando a planilha excede as listas). Término real = planilha; sem ela, último carimbo das listas. Produtividade = movimentos ÷ (ternos médios × horas líquidas), descontando 30 min de parada por período de 6 h (premissa de que o histórico seguiu esse padrão).</p></details></section>
+<section class="card" id="divul" hidden><h2>Divulgar resultado</h2><div class="bar noprint"><button id="dpng" type="button">Baixar imagem (PNG)</button><button id="dtxt" type="button">Copiar texto para WhatsApp</button><button id="dfch" type="button">Fechar</button></div><canvas id="cv" width="1080" height="1350" style="width:100%;max-width:520px;border-radius:12px;display:block;margin:0 auto 10px"></canvas><textarea id="dtx" rows="9"></textarea><p class="note" id="dmsg"></p></section>
+<section class="card" id="relat" hidden><div class="bar noprint"><button id="prt" type="button">Imprimir / salvar PDF</button><button id="fch" type="button">Fechar</button></div><div id="relc"></div></section>
+</main>
+<script>
+/* ===== CONFIGURAÇÃO DO BANCO ONLINE (Firebase) =====
+   Cole entre as aspas SOMENTE o apiKey e o projectId do seu projeto Firebase
+   (veja LEIA-ME-ONLINE.txt). Se esta linha tiver erro, o resto da página continua funcionando. */
+const FB={apiKey:"AIzaSyC-b6C5b9UnijfQF30_Wd9NRWRAUcIG3LY",projectId:"estimativa-cosco",colecao:"operacoes_cosco"};
+/* ================================================== */
+</script>
+<script>
+const FBX=(typeof FB==="object"&&FB)?FB:{apiKey:"",projectId:"",colecao:"operacoes_cosco",erro:1};
+const H=[{"n": "Vitoria", "i": "2026-08-06 14:35", "d": 0, "l": 400, "q": 400, "t": 2.0, "h": 14.4}, {"n": "Rizhao", "i": "2026-08-08 14:45", "d": 813, "l": 962, "q": 1401, "t": 1.71, "h": 117.2}, {"n": "Shanghai", "i": "2026-08-13 21:00", "d": 713, "l": 2545, "q": 1536, "t": 1.75, "h": 139.3}, {"n": "Brazil", "i": "2026-09-19 13:45", "d": 0, "l": 1716, "q": 264, "t": 2.0, "h": 15.0}, {"n": "Itaqui", "i": "2026-09-20 22:05", "d": 947, "l": 514, "q": 1461, "t": 1.09, "h": 134.6}, {"n": "Suape", "i": "2026-10-05 10:00", "d": 870, "l": 550, "q": 1426, "t": 1.75, "h": 139.8}, {"n": "Taicang", "i": "2026-10-13 20:40", "d": 726, "l": 677, "q": 1546, "t": 1.56, "h": 152.3}, {"n": "Itajai", "i": "2026-10-20 13:55", "d": 482, "l": 462, "q": 632, "t": 1.0, "h": 81.1}, {"n": "Itapoa", "i": "2026-10-27 20:40", "d": 731, "l": 974, "q": 1455, "t": 1.39, "h": 100.9}, {"n": "Qingdao", "i": "2026-11-01 21:20", "d": 862, "l": 0, "q": 862, "t": 1.5, "h": 64.7}];
+const BOUND=[1,7,13,19],NXT={1:7,7:13,13:19,19:1};
+const cal=H.map(x=>x.q/(x.t*x.h*(5.5/6))).sort((a,b)=>a-b);
+const q=p=>{const i=(cal.length-1)*p,lo=Math.floor(i),hi=Math.ceil(i);return cal[lo]+(cal[hi]-cal[lo])*(i-lo)};
+const R={c:q(.25),p:q(.5),o:q(.75)};
+const TP=[["c20","20 pés convencionais",1,0,0],["c40","40 pés convencionais",1,700,500],["t48","Tipo 48 (FR / FC / FP)",7,0,462],["fm","40FM",6,0,0],["fh","40FH",4,0,0],["fr","40FR",1,0,0]];
+const $=id=>document.getElementById(id),pad=n=>String(n).padStart(2,"0");
+const fd=d=>d.toLocaleString("pt-BR",{weekday:"short",day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"});
+const nf=(n,d=0)=>n.toLocaleString("pt-BR",{minimumFractionDigits:d,maximumFractionDigits:d});
+const loc=ms=>{const d=new Date(ms);return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`};
+let DEF=2,PAR=.5,PEA=0;const TERN={},ACT={},REAL={};let LAST=null;
+const shiftStart=ms=>{const d=new Date(ms),h=d.getHours();d.setMinutes(0,0,0);if(h<1){d.setDate(d.getDate()-1);d.setHours(19)}else d.setHours(h>=19?19:h>=13?13:h>=7?7:1);return d.getTime()};
+function sim(start,r,P,noReal){let t=start,base=P.base,pl=P.pools.map(x=>({...x})),rows=[];
+ const left=()=>base+pl.reduce((a,x)=>a+x.m,0);
+ while(left()>1e-9&&rows.length<800){const d=new Date(t),h=d.getHours()+d.getMinutes()/60,nb=new Date(t);nb.setMinutes(0,0,0);
+  const nh=BOUND.find(b=>b>h);if(nh===undefined){nb.setDate(nb.getDate()+1);nb.setHours(1)}else nb.setHours(nh);
+  const k=shiftStart(t),n=TERN[k]||DEF,f=Math.max(.05,1-(PAR+PEA)/6),rate=n*r*f,rv=noReal?undefined:REAL[k];
+  const av0=(nb.getTime()-t)/36e5;let av=av0,used=0,un=0,mv=0;const tx=[];
+  const wk=(lb,get,set,b)=>{const cap=rv===undefined?rate*av:rv-mv,m=Math.min(cap,get());if(m<=1e-9)return;set(get()-m);mv+=m;un+=m*b;tx.push(lb);if(rv===undefined){const dh=m/rate;av-=dh;used+=dh}};
+  const sel=pl.find(x=>x.k===ACT[k]);
+  if(sel)wk("Bundle "+sel.n,()=>sel.m,v=>{sel.m=v},sel.b);
+  wk("Geral",()=>base,v=>{base=v},1);
+  pl.forEach(x=>wk("Bundle "+x.n,()=>x.m,v=>{x.m=v},x.b));
+  if(rv!==undefined)used=rv>0?av0*Math.min(1,mv/rv):av0;
+  rows.push({ini:new Date(t),k,n,mov:mv,un,hrs:used,par:used*PAR/6,pea:used*PEA/6,real:rv!==undefined,txt:[...new Set(tx)].join(" + ")||"–"});
+  t=left()>1e-9?nb.getTime():t+used*36e5}
+ return{end:new Date(t),rows}}
+function lab(d){const h=d.getHours();const s=h>=19?19:h>=13?13:h>=7?7:h>=1?1:19;const k=new Date(d);if(h<1)k.setDate(k.getDate()-1);
+ return k.toLocaleDateString("pt-BR",{weekday:"short",day:"2-digit",month:"2-digit"})+"  "+pad(s)+"X"+pad(NXT[s])}
+function run(){
+ const st=new Date($("ini").value).getTime();DEF=+$("ter").value;PAR=Math.max(0,+$("par").value||0)/60;PEA=Math.max(0,+$("pea").value||0)/60;
+ let units=0,V=0,base=0;const D={du:0,eu:0,em:0,ru:0},pools=[],num=id=>Math.max(0,+$(id).value||0);
+ TP.forEach(([k,nm])=>{const dc=num("dc_"+k),dv=num("dv_"+k),ec=num("ec_"+k),ev=num("ev_"+k),r=num("r_"+k),b=Math.max(1,Math.floor(+$("b_"+k).value||1));units+=dc+dv+ec+ev+2*r;D.du+=dc+dv;D.eu+=ec+ev;D.em+=ec+(b>1&&ev>0?Math.ceil(ev/b):ev);D.ru+=r;base+=dc+dv+ec+2*r;if(b>1&&ev>0)pools.push({k,n:nm,b,m:Math.ceil(ev/b)});else base+=ev});V=base+pools.reduce((a,x)=>a+x.m,0);const P={base,pools};
+ if(isNaN(st)||V<=0){$("res").innerHTML="<p class='note'>Preencha início e volumes.</p>";$("prog").innerHTML="";$("mares").innerHTML="";return}
+ const sc=[["Conservador","c"],["Provável","p"],["Otimista","o"]],S={};
+ $("res").innerHTML=sc.map(([n,k])=>{S[k]=sim(st,R[k],P);const h=(S[k].end-st)/36e5;
+  return `<div class="sc ${k=="p"?"p":""}"><span class="tag">${n}</span><b>${nf(h,1)} h</b><small>${nf(h/24,1)} dias · ${nf(R[k],1)} mov/terno/h</small><br><small>término ${fd(S[k].end)}</small></div>`}).join("");
+ const hu=(sim(st,R.p,{base:units,pools:[]},true).end-st)/36e5,hm=(S.p.end-st)/36e5;
+ $("red").textContent=`${nf(units)} movimentos sem bundle → ${nf(V)} com bundle (${nf((1-V/units)*100,1)}% a menos) · economia de ${nf(hu-hm,1)} h no cenário provável`;
+ $("aviso").textContent="Atenção: na validação cruzada, usando os ternos reais de cada navio, o erro médio foi de ±25 h; o planejamento manual por turno errou ±13 h. Use a faixa como referência.";
+ const pr=S.p.rows,nr=pr.filter(r=>r.real).length,rm=pr.reduce((a,r)=>a+(r.real?r.mov:0),0),tot=pr.length,pc=V>0?Math.min(100,rm/V*100):0;
+ const td=tides(S),tl=(t,b,sm)=>`<div class="sc"><span class="tag">${t}</span><b>${b}</b><small>${sm}</small></div>`;
+ $("prog").innerHTML=tl("Descarga",nf(D.du),"unidades · "+nf(D.du)+" mov.")+tl("Embarque",nf(D.eu),"unidades · "+nf(D.em)+" mov. com bundle")+tl("Restow",nf(D.ru),"unidades · "+nf(2*D.ru)+" mov. (2×)")+tl("Total de carga",nf(units),"unidades (restow 2×) · "+nf(V)+" mov. com bundle")+tl("Períodos operados",nr,nf(rm)+" mov. reais lançados")+tl("Faltam operar",tot-nr,nf(Math.max(V-rm,0))+" mov. restantes")+tl("Progresso",nf(pc,0)+"%",tot+" períodos no total");
+ $("mares").innerHTML=maresTab(td);
+ LAST={st,V,units,S,hu,hm,nr,tot,rm,D,td};save();$("tab").innerHTML="<table><tr><th>Turno</th><th>Ternos</th><th>Atividade</th><th>Real (mov.)</th><th>Executado</th><th>Horas</th><th>Parada (min)</th><th>Peação (min)</th><th>Mov.</th><th>Un. equiv.</th><th>Saldo (mov.)</th></tr>"+(()=>{let c=0;return S.p.rows.map(r=>{c+=r.mov;return `<tr${r.real?' class="rl"':""}><td>${lab(r.ini)}</td><td><select data-k="${r.k}">${[1,2,3].map(o=>`<option${o==r.n?" selected":""}>${o}</option>`).join("")}</select></td><td><select data-a="${r.k}" style="width:auto"><option value="">Automático</option>${pools.map(p=>`<option value="${p.k}"${ACT[r.k]==p.k?" selected":""}>Bundle ${p.n} (×${p.b})</option>`).join("")}</select></td><td><input class="re" type="number" min="0" data-r="${r.k}" value="${REAL[r.k]===undefined?"":REAL[r.k]}"></td><td>${r.txt}</td><td>${nf(r.hrs,1)}</td><td>${nf(r.par*60)}</td><td>${nf(r.pea*60)}</td><td>${nf(r.mov)}</td><td>${nf(r.un)}</td><td>${nf(Math.max(V-c,0))}</td></tr>`}).join("")})()+"</table>"}
+function save(){try{const v={};document.querySelectorAll("main input[id],main select[id]").forEach(e=>{v[e.id]=e.value});localStorage.setItem("estcosco",JSON.stringify({v,T:TERN,A:ACT,R:REAL}))}catch(e){}schedulePush()}
+function load(){try{const o=JSON.parse(localStorage.getItem("estcosco")||"null");if(!o)return;for(const id in o.v){const e=$(id);if(e)e.value=o.v[id]}Object.assign(TERN,o.T);Object.assign(ACT,o.A);Object.assign(REAL,o.R)}catch(e){}}
+let INIT=null,CUR=null,ON=false,timer=null,LASTJ="",LASTREM="",busy=false,pn=0;
+const LIMITE=5,OKMSG="Online: operações compartilhadas com a equipe (atualiza a cada ~20 s).",setSync=m=>{$("sync").textContent=m};
+const hhmm=()=>new Date().toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"});
+function snap(){const v={};document.querySelectorAll("main input[id],main select[id]").forEach(e=>{v[e.id]=e.value});return{v,T:{...TERN},A:{...ACT},R:{...REAL}}}
+function schedulePush(){if(!ON||CUR===null)return;clearTimeout(timer);timer=setTimeout(()=>persist(false),1500)}
+const ts=()=>{const d=new Date();return loc(d.getTime()).replace("T"," ")+":"+pad(d.getSeconds())};
+const FSB=()=>`https://firestore.googleapis.com/v1/projects/${FBX.projectId}/databases/(default)/documents/${FBX.colecao}`;
+async function fsq(m,p,b){const r=await fetch(FSB()+p+(p.includes("?")?"&":"?")+"key="+encodeURIComponent(FBX.apiKey),{method:m,headers:{"Content-Type":"application/json"},body:b?JSON.stringify(b):undefined});
+ const j=await r.json().catch(()=>({}));if(!r.ok)throw Object.assign(new Error((j.error&&j.error.message)||("erro "+r.status)),{status:r.status});return j}
+const sv=f=>(f&&f.stringValue)||"";
+const dd=d=>({id:d.name.split("/").pop(),nome:sv(d.fields&&d.fields.nome),inicio:sv(d.fields&&d.fields.inicio),resumo:sv(d.fields&&d.fields.resumo),atualizado:sv(d.fields&&d.fields.atualizado),estado:sv(d.fields&&d.fields.estado)});
+async function fsList(){const j=await fsq("GET","?pageSize=50");return(j.documents||[]).map(dd).sort((a,b)=>b.atualizado.localeCompare(a.atualizado))}
+async function fsGet(id){const o=dd(await fsq("GET","/"+id));o.estado=JSON.parse(o.estado);return o}
+async function fsPut(id,nome,inicio,resumo,estado){const at=ts();await fsq("PATCH","/"+id,{fields:{nome:{stringValue:nome},inicio:{stringValue:inicio},resumo:{stringValue:resumo},atualizado:{stringValue:at},estado:{stringValue:JSON.stringify(estado)}}});return at}
+const esc=x=>String(x).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+function report(){if(!LAST)return;const L=LAST,g=id=>$(id).value;
+ const tipos=TP.map(([k,n])=>{const dc=+g("dc_"+k)||0,dv=+g("dv_"+k)||0,ec=+g("ec_"+k)||0,ev=+g("ev_"+k)||0,r=+g("r_"+k)||0,b=Math.max(1,+g("b_"+k)||1);if(dc+dv+ec+ev+r==0)return"";return `<tr><td>${n}</td><td>${nf(dc)}</td><td>${nf(dv)}</td><td>${nf(ec)}</td><td>${nf(ev)}</td><td>${nf(r)}</td><td>${b}</td><td>${nf(dc+dv+ec+Math.ceil(ev/b)+2*r)}</td></tr>`}).join("");
+ const sc=[["Conservador","c"],["Provável","p"],["Otimista","o"]].map(([n,k])=>{const h=(L.S[k].end-L.st)/36e5;return `<tr><td>${n}</td><td>${nf(h,1)} h</td><td>${nf(h/24,1)} dias</td><td>${fd(L.S[k].end)}</td></tr>`}).join("");
+ let c=0,rm=0,nr=0;const rows=L.S.p.rows.map(r=>{c+=r.mov;if(r.real){rm+=r.mov;nr++}return `<tr><td>${lab(r.ini)}</td><td>${r.n}</td><td>${esc(r.txt)}</td><td>${nf(r.hrs,1)}</td><td>${nf(r.par*60)}</td><td>${nf(r.pea*60)}</td><td>${nf(r.mov)}</td><td>${r.real?"Real":"Estimado"}</td><td>${nf(r.un)}</td><td>${nf(Math.max(L.V-c,0))}</td></tr>`}).join("");
+ $("relc").innerHTML=`<h2>Relatório de estimativa operacional – ${esc(g("nav")||"navio COSCO")}</h2><p class="note">Gerado em ${fd(new Date())} · Início da operação: ${fd(new Date(L.st))}</p><h3>Premissas</h3><p>Ternos padrão: ${g("ter")} · Paralisação: ${g("par")} min/período · Peação/despeação: ${g("pea")} min/período · Produtividade: ${nf(R.c,1)} / ${nf(R.p,1)} / ${nf(R.o,1)} mov/terno/h (conservador / provável / otimista, ${H.length} navios históricos)</p><h3>Volumes por tipo</h3><div class="sx" style="max-height:none"><table><tr><th>Tipo</th><th>Desc. cheios</th><th>Desc. vazios</th><th>Emb. cheios</th><th>Emb. vazios</th><th>Restow</th><th>Bundle</th><th>Movimentos</th></tr>${tipos}</table></div><p><b>${nf(L.units)}</b> movimentos sem bundle → <b>${nf(L.V)}</b> com bundle · economia de ${nf(L.hu-L.hm,1)} h (cenário provável)</p><p>Carga: descarga <b>${nf(L.D.du)}</b> un. · embarque <b>${nf(L.D.eu)}</b> un. (${nf(L.D.em)} mov. com bundle) · restow <b>${nf(L.D.ru)}</b> un. (${nf(2*L.D.ru)} mov.)</p>${maresTab(L.td)}<p>Períodos operados: <b>${L.nr}</b> de ${L.tot} · faltam <b>${L.tot-L.nr}</b> · movimentos reais executados: ${nf(L.rm)} de ${nf(L.V)}</p><h3>Cenários</h3><div class="sx" style="max-height:none"><table><tr><th>Cenário</th><th>Duração</th><th>Dias</th><th>Término</th></tr>${sc}</table></div><h3>Turnos</h3><p class="note">${nr} turno(s) com valor real lançado (${nf(rm)} movimentos reais); os demais são estimados.</p><div class="sx" style="max-height:none"><table><tr><th>Turno</th><th>Ternos</th><th>Executado</th><th>Horas</th><th>Parada (min)</th><th>Peação (min)</th><th>Mov.</th><th>Origem</th><th>Un. equiv.</th><th>Saldo</th></tr>${rows}</table></div>`;
+ $("relat").hidden=false;$("relat").scrollIntoView()}
+$("tipos").innerHTML=TP.map(([k,n,b,d,l])=>`<tr><td>${n}</td><td><input id="dc_${k}" type="number" min="0" value="${d}"></td><td><input id="dv_${k}" type="number" min="0" value="0"></td><td><input id="ec_${k}" type="number" min="0" value="0"></td><td><input id="ev_${k}" type="number" min="0" value="${l}"></td><td><input id="r_${k}" type="number" min="0" value="0"></td><td><input id="b_${k}" type="number" min="1" value="${b}"></td></tr>`).join("");
+$("his").innerHTML="<table><tr><th>Navio</th><th>Início</th><th>Descarga</th><th>Embarque</th><th>Mov. equiv.</th><th>Ternos</th><th>Horas</th><th>Mov/terno/h</th></tr>"+H.map(x=>`<tr><td>${x.n}</td><td>${x.i.slice(8,10)}/${x.i.slice(5,7)}</td><td>${nf(x.d)}</td><td>${nf(x.l)}</td><td>${nf(x.q)}</td><td>${nf(x.t,1)}</td><td>${nf(x.h,1)}</td><td>${nf(x.q/(x.t*x.h*(5.5/6)),1)}</td></tr>`).join("")+"</table>";
+(function(){const d=new Date();d.setHours(d.getHours()+1,0,0,0);$("ini").value=loc(d.getTime());INIT=snap();load();$("rel").onclick=report;$("prt").onclick=()=>window.print();$("fch").onclick=()=>{$("relat").hidden=true};$("clr").onclick=()=>{const b=$("clr");if(!b.dataset.c){b.dataset.c=1;b.textContent="Confirmar: limpar tela";setTimeout(()=>{delete b.dataset.c;b.textContent="Limpar tudo"},5000);return}
+ novaTela()};
+ $("tab").addEventListener("change",e=>{if(e.target.dataset.k){TERN[+e.target.dataset.k]=+e.target.value;run()}else if(e.target.dataset.a!==undefined){ACT[+e.target.dataset.a]=e.target.value;run()}else if(e.target.dataset.r!==undefined){const v=e.target.value;if(v==="")delete REAL[+e.target.dataset.r];else REAL[+e.target.dataset.r]=Math.max(0,+v);run()}});
+ ["ini","nav","ter","par","pea","mr1","mr1f","mr2","mr2f"].forEach(i=>$(i).addEventListener("input",run));$("tipos").addEventListener("input",run);run()})();
+function tides(S){const o=[];[["mr1","mr1f","1ª maré"],["mr2","mr2f","2ª maré"]].forEach(([i1,i2,nm])=>{const v=$(i1).value;if(!v)return;const a=new Date(v).getTime();if(isNaN(a))return;let b=$(i2).value?new Date($(i2).value).getTime():a;if(isNaN(b)||b<a)b=a;
+ const m={nm,a,b};["c","p","o"].forEach(k=>{const e=S[k].end.getTime();m[k]=(b-e)/36e5;m["w"+k]=Math.max(0,(a-e)/36e5)});o.push(m)});return o}
+function stTxt(m,k){return m[k]<0?"perde por "+nf(-m[k],1)+" h":m["w"+k]>0?"pronto "+nf(m["w"+k],1)+" h antes de abrir":"na janela · "+nf(m[k],1)+" h até fechar"}
+function win(m){const A=new Date(m.a),B=new Date(m.b);if(m.b===m.a)return fd(A);return fd(A)+" até "+(A.toDateString()===B.toDateString()?B.toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"}):fd(B))}
+function maresTab(td){if(!td.length)return "<p class='note'>Informe a janela da maré de saída (de / até, no topo) para comparar com o término estimado.</p>";
+ const best=td.find(m=>m.p>=0);
+ return "<h3 style='margin:0 0 6px;font-size:14px'>Marés de saída</h3><div class='sx' style='max-height:none'><table><tr><th>Maré</th><th>Janela</th><th>Conservador</th><th>Provável</th><th>Otimista</th></tr>"+td.map(m=>`<tr><td>${m.nm}</td><td>${win(m)}</td>${["c","p","o"].map(k=>`<td style="color:${m[k]>=0?"var(--accd)":"#c0392b"}">${stTxt(m,k)}</td>`).join("")}</tr>`).join("")+"</table></div><p class='note'>"+(best?"No cenário provável a operação termina a tempo da "+best.nm+".":"No cenário provável a operação não termina a tempo de nenhuma das marés informadas.")+" Margem = tempo que falta para a janela fechar; considere também o tempo de desatracação.</p>"}
+function msgTxt(L){const nav=($("nav").value||"Navio COSCO").trim(),h=(L.S.p.end-L.st)/36e5;return `🚢 *${nav}*\n📅 Início: ${fd(new Date(L.st))}\n🏁 Término previsto: *${fd(L.S.p.end)}* (${nf(h,1)} h)\n📦 Descarga: ${nf(L.D.du)} un. · Embarque: ${nf(L.D.eu)} un. (${nf(L.D.em)} mov.) · Restow: ${nf(L.D.ru)} un. (${nf(2*L.D.ru)} mov.)\n📦 Total de carga: ${nf(L.units)} un. (${nf(L.V)} mov. com bundle)\n✅ Períodos operados: ${L.nr} de ${L.tot}\n⏳ Faltam operar: ${L.tot-L.nr} períodos (${nf(Math.max(L.V-L.rm,0))} mov.)\n📊 Conservador: ${fd(L.S.c.end)} · Otimista: ${fd(L.S.o.end)}${L.td.map(m=>`\n🌊 Maré de saída (${m.nm}): ${win(m)} → provável: ${stTxt(m,"p")}`).join("")}`}
+function card(cv,L){const W=1080,HH=L.td.length?1460+100*L.td.length:1420;cv.height=HH;const c=cv.getContext("2d"),nav=($("nav").value||"Navio COSCO").trim().toUpperCase(),F="system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif";
+ const g=c.createLinearGradient(0,0,W,HH);g.addColorStop(0,"#062235");g.addColorStop(1,"#00703a");c.fillStyle=g;c.fillRect(0,0,W,HH);
+ c.fillStyle="rgba(255,255,255,.06)";c.beginPath();c.arc(W-120,170,260,0,7);c.fill();c.beginPath();c.arc(120,HH-90,320,0,7);c.fill();
+ const tx=(t,x,y,sz,col,w,al)=>{c.font=`${w||"400"} ${sz}px ${F}`;c.fillStyle=col;c.textAlign=al||"left";c.fillText(t,x,y)};
+ const rr=(x,y,w,h,r,f)=>{c.fillStyle=f;c.beginPath();c.moveTo(x+r,y);c.arcTo(x+w,y,x+w,y+h,r);c.arcTo(x+w,y+h,x,y+h,r);c.arcTo(x,y+h,x,y,r);c.arcTo(x,y,x+w,y,r);c.closePath();c.fill()};
+ tx("ESTIMATIVA OPERACIONAL · COSCO",70,110,26,"#9fe8bd","600");
+ let sz=72;c.font=`700 ${sz}px ${F}`;while(c.measureText(nav).width>W-140&&sz>36){sz-=4;c.font=`700 ${sz}px ${F}`}
+ tx(nav,70,200,sz,"#fff","700");tx("Início: "+fd(new Date(L.st)),70,252,32,"#d6f5e3");
+ rr(60,300,W-120,300,32,"rgba(255,255,255,.12)");const h=(L.S.p.end-L.st)/36e5;
+ tx("TÉRMINO PREVISTO",100,360,28,"#9fe8bd","600");tx(fd(L.S.p.end),100,470,70,"#8cf0b3","700");tx(nf(h,1)+" h de operação · "+nf(h/24,1)+" dias",100,540,36,"#fff","500");
+ const T=[["TOTAL DE CARGA",nf(L.units),"unidades · "+nf(L.V)+" mov."],["PERÍODOS OPERADOS",String(L.nr),"de "+L.tot+" no total"],["FALTAM OPERAR",String(L.tot-L.nr),nf(Math.max(L.V-L.rm,0))+" mov. restantes"]],tw=(W-120-48)/3;
+ T.forEach((t,i)=>{const x=60+i*(tw+24);rr(x,640,tw,250,28,"rgba(255,255,255,.12)");tx(t[0],x+28,692,22,"#9fe8bd","600");tx(t[1],x+28,792,76,"#fff","700");tx(t[2],x+28,846,24,"#d6f5e3")});
+ const pc=L.V>0?Math.min(1,L.rm/L.V):0;tx("PROGRESSO",70,950,26,"#9fe8bd","600");tx(nf(pc*100,0)+"%",W-70,950,26,"#fff","700","right");
+ rr(70,975,W-140,36,18,"rgba(255,255,255,.18)");if(pc>0)rr(70,975,Math.max(36,(W-140)*pc),36,18,"#8cf0b3");
+ const cg="CARGA: descarga "+nf(L.D.du)+" · embarque "+nf(L.D.eu)+" ("+nf(L.D.em)+" mov.) · restow "+nf(L.D.ru)+" ("+nf(2*L.D.ru)+" mov.)";let fz=25;c.font=`500 ${fz}px ${F}`;while(c.measureText(cg).width>W-140&&fz>15){fz--;c.font=`500 ${fz}px ${F}`}tx(cg,70,1062,fz,"#d6f5e3","500");
+ tx("CENÁRIOS DE TÉRMINO",70,1140,26,"#9fe8bd","600");
+ [["Conservador",L.S.c],["Provável",L.S.p],["Otimista",L.S.o]].forEach((e,i)=>{const y=1192+i*58,col=i==1?"#8cf0b3":"#fff",w=i==1?"700":"400";tx(e[0],70,y,34,col,w);tx(fd(e[1].end),W-70,y,34,col,w,"right")});
+ if(L.td.length){tx("MARÉ DE SAÍDA PREVISTA",70,1395,26,"#9fe8bd","600");L.td.forEach((m,i)=>{const y=1445+i*100,ok=m.p>=0;tx(m.nm+": "+win(m),70,y,30,"#fff","600");tx(stTxt(m,"p")+" (cenário provável)",70,y+42,28,ok?"#8cf0b3":"#ffa8a8","700")})}
+ tx("Gerado em "+fd(new Date())+" · estimativa baseada no histórico de navios COSCO",W/2,HH-34,22,"#9fe8bd","400","center")}
+$("dvg").onclick=()=>{if(!LAST)return;card($("cv"),LAST);$("dtx").value=msgTxt(LAST);$("divul").hidden=false;$("dmsg").textContent="";$("divul").scrollIntoView()};
+$("dfch").onclick=()=>{$("divul").hidden=true};
+$("dpng").onclick=()=>{$("cv").toBlob(b=>{if(!b){$("dmsg").textContent="Não foi possível gerar a imagem.";return}const a=document.createElement("a");a.href=URL.createObjectURL(b);a.download=(($("nav").value||"operacao").trim().replace(/[^\w\-]+/g,"_"))+".png";document.body.appendChild(a);a.click();a.remove();$("dmsg").textContent="Imagem gerada. Se o download não iniciar, clique com o botão direito na imagem e escolha Salvar imagem."},"image/png")};
+$("dtxt").onclick=async()=>{$("dtx").select();try{await navigator.clipboard.writeText($("dtx").value);$("dmsg").textContent="Texto copiado. Cole no WhatsApp."}catch(e){$("dmsg").textContent="Selecione o texto e copie com Ctrl+C."}};
+function novaTela(){try{localStorage.removeItem("estcosco");localStorage.removeItem("estcosco_cur")}catch(e){}location.reload()}
+async function listOps(){const L=await fsList();$("ops").innerHTML=L.length?"<table><tr><th>Navio / viagem</th><th>Início</th><th>Previsão provável</th><th>Atualizado</th><th></th></tr>"+L.map(o=>`<tr${o.id===CUR?' class="rl"':""}><td>${esc(o.nome)}</td><td>${esc(o.inicio||"–")}</td><td>${esc(o.resumo||"–")}</td><td>${esc(o.atualizado.slice(8,10)+"/"+o.atualizado.slice(5,7)+" "+o.atualizado.slice(11,16))}</td><td><button data-open="${o.id}" type="button">Abrir</button> <button data-del="${o.id}" type="button">Excluir</button></td></tr>`).join("")+"</table>":"<p class='note'>Nenhuma operação salva ainda.</p>";return L}
+async function persist(manual){if(!ON||busy)return;const s=snap(),j=JSON.stringify(s);if(!manual&&j===LASTJ)return;busy=true;
+ try{const nome=(s.v.nav||"").trim()||"Sem nome";let resumo="",inicio="";if(LAST){const h=(LAST.S.p.end-LAST.st)/36e5;resumo=nf(h,1)+" h · término "+fd(LAST.S.p.end);inicio=fd(new Date(LAST.st))}
+  let id=CUR;if(!id){const L=await fsList();if(L.length>=LIMITE){const e=new Error("limite");e.status=409;throw e}id="op"+Date.now().toString(36)+Math.random().toString(36).slice(2,5)}
+  LASTREM=await fsPut(id,nome,inicio,resumo,s);CUR=id;LASTJ=j;try{localStorage.setItem("estcosco_cur",CUR)}catch(e){}
+  $("opmsg").textContent=(manual?"Salvo":"Salvo automaticamente")+" às "+hhmm()+". As alterações desta operação são gravadas sozinhas e a equipe as vê em até ~20 s.";listOps().catch(()=>{})}
+ catch(e){$("opmsg").textContent=e.message==="limite"?"Limite de 5 operações: exclua uma para salvar outra.":"Não foi possível salvar online: "+e.message}
+ busy=false}
+function aplicar(o){const s=o.estado;for(const id in s.v){const e=$(id);if(e)e.value=s.v[id]}
+ [[TERN,s.T],[ACT,s.A],[REAL,s.R]].forEach(([L,N])=>{for(const k in L)delete L[k];Object.assign(L,N||{})});CUR=o.id;LASTREM=o.atualizado;try{localStorage.setItem("estcosco_cur",CUR)}catch(e){}run();LASTJ=JSON.stringify(snap())}
+async function poll(){if(!ON||busy||document.hidden)return;pn++;
+ try{if(CUR){const o=await fsGet(CUR).catch(e=>{if(e.status===404)return null;throw e});
+   if(!o){CUR=null;try{localStorage.removeItem("estcosco_cur")}catch(e){}listOps()}
+   else if(o.atualizado>LASTREM){if(JSON.stringify(snap())===LASTJ){aplicar(o);$("opmsg").textContent="Atualizado com alterações de outra pessoa às "+hhmm()+"."}else $("opmsg").textContent="Atenção: outra pessoa alterou esta operação. Se você salvar, as suas alterações prevalecem."}}
+  if(!CUR||pn%5===0)await listOps();setSync(OKMSG)}
+ catch(e){setSync("Sem conexão com o banco online ("+e.message+"). Tentando de novo...")}}
+$("svop").onclick=()=>persist(true);$("nwop").onclick=novaTela;
+$("ops").addEventListener("click",async e=>{const b=e.target.closest("button");if(!b)return;
+ if(b.dataset.open){try{aplicar(await fsGet(b.dataset.open));$("opmsg").textContent="Operação aberta.";listOps()}catch(x){$("opmsg").textContent="Não foi possível abrir: "+x.message}}
+ else if(b.dataset.del){if(!b.dataset.c){b.dataset.c=1;b.textContent="Confirmar";setTimeout(()=>{if(b.isConnected){delete b.dataset.c;b.textContent="Excluir"}},4000);return}
+  try{await fsq("DELETE","/"+b.dataset.del);if(b.dataset.del===CUR){CUR=null;try{localStorage.removeItem("estcosco_cur")}catch(x){}}$("opmsg").textContent="Operação excluída.";listOps()}catch(x){$("opmsg").textContent="Não foi possível excluir: "+x.message}}});
+(async()=>{if(!FBX.apiKey||!FBX.projectId){setSync(FBX.erro?"A configuração do banco (linha FB no início do arquivo) está com erro: cole só o apiKey e o projectId, entre aspas. Por enquanto os dados ficam só neste navegador.":"Compartilhamento online ainda não configurado (veja o LEIA-ME-ONLINE). Por enquanto os dados ficam só neste navegador.");return}
+ try{await listOps();ON=true;$("opsc").hidden=false;try{CUR=localStorage.getItem("estcosco_cur")||null}catch(e){}LASTJ=JSON.stringify(snap());setSync(OKMSG);setInterval(poll,20000)}
+ catch(e){setSync("Sem conexão com o banco online ("+e.message+"). Os dados ficam só neste navegador.")}})();
+</script></body></html>
