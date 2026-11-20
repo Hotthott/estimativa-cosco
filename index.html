@@ -31,7 +31,7 @@ body.ro main input,body.ro main select{pointer-events:none;opacity:.7}
 textarea{width:100%;padding:8px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--fg);font:12px/1.3 ui-monospace,Consolas,monospace}
 .brand{background:linear-gradient(100deg,#062235,#00703a);color:#fff;border-radius:14px;padding:16px 18px;margin-bottom:14px}.brand small{display:block;letter-spacing:.14em;text-transform:uppercase;font-size:11px;color:#9fe8bd}.brand h1{margin:3px 0 4px;font-size:21px;color:#fff}.brand p{margin:0;opacity:.92;font-size:14px}
 </style></head><body><main>
-<div class="brand"><small>Log-In Logística Integrada</small><h1>Estimativa operacional – navios de contêiner COSCO</h1><p>Informe o início, as unidades por tipo e os períodos de ternos. O sistema converte bundles em movimentos e simula turno a turno.</p><small style="margin-top:8px;letter-spacing:0;text-transform:none;color:#d6f5e3">Versão r12 · 14/11/2026 · janelas só na maré enchente (nunca na vazante)</small></div>
+<div class="brand"><small>Log-In Logística Integrada</small><h1>Estimativa operacional – navios de contêiner COSCO</h1><p>Informe o início, as unidades por tipo e os períodos de ternos. O sistema converte bundles em movimentos e simula turno a turno.</p><small style="margin-top:8px;letter-spacing:0;text-transform:none;color:#d6f5e3">Versão r13 · 20/11/2026 · exportar para Excel (modelo COSCO)</small></div>
 <p class="note" id="sync">Modo individual: os dados ficam salvos só neste navegador.</p>
 <section class="card"><div class="grid"><div><label for="nav">Navio / viagem</label><input id="nav" type="text" placeholder="ex.: GREEN QINGDAO V.8"></div><div><label for="ini">Início da operação</label><input id="ini" type="datetime-local"></div>
 <div><label for="ter">Ternos padrão (turnos não definidos)</label><select id="ter"><option>1</option><option selected>2</option><option>3</option></select></div><div><label for="par">Paralisação por período (min)</label><input id="par" type="number" min="0" max="120" value="30"></div><div><label for="pea">Peação/despeação (min por período)</label><input id="pea" type="number" min="0" max="120" value="0"></div><div><label for="mr1">1ª maré de saída: de</label><input id="mr1" type="datetime-local"></div><div><label for="mr1f">1ª maré: até</label><input id="mr1f" type="datetime-local"></div><div><label for="mr2">2ª maré (opcional): de</label><input id="mr2" type="datetime-local"></div><div><label for="mr2f">2ª maré: até</label><input id="mr2f" type="datetime-local"></div><div><label for="loa">Tamanho do navio: comprimento total (LOA, m)</label><input id="loa" type="number" min="0" step="0.01" placeholder="ex.: 210"></div><div><label for="cal">Calado de saída (m), opcional</label><input id="cal" type="number" min="0" step="0.01" placeholder="ex.: 10.90"></div><div><label for="mmode">Marés de saída</label><select id="mmode"><option value="auto" selected>Automática (NORMAP 1 + tábua 2026)</option><option value="man">Manual (campos de / até)</option></select></div></div><details style="margin-top:10px"><summary>Regras da saída (NORMAP 1) e tolerância</summary><div class="grid" style="margin-top:8px"><div><label for="tfol">Janela de saída: minutos antes do horário de 1 h antes da preamar</label><input id="tfol" type="number" min="0" max="240" value="60"></div></div><p class="note">Modo automático, conforme a NORMAP 1 do Porto de Vitória: navio com calado acima de 10,67 m sai 1 h antes da preamar: a janela mostrada termina nesse horário e começa o número de minutos informado acima antes dele (a norma não define a largura da janela). Só são consideradas as marés enchentes (da baixa-mar até a preamar), nunca as vazantes. Navio que pode sair sem restrição de maré mostra a enchente inteira, com a amplitude. LOA acima de 220,99 m não sai à noite; o período diurno vem da tabela de nascer e pôr do sol (daylight). Calado máximo de saída: 11,20 m mais a maré, limitado a 12,50 m (11,45 m à noite para LOA de 206,00 a 220,99 m). Calado não informado é tratado como acima de 10,67 m. Navio acima de 244,99 m não é admitido no canal.</p></details>
@@ -40,7 +40,7 @@ textarea{width:100%;padding:8px;border:1px solid var(--line);border-radius:8px;b
 <section class="card" id="opsc" hidden><h2>Operações compartilhadas com a equipe (até 5)</h2><p class="note">Todos que abrirem este endereço veem as mesmas operações. Depois de salvar, as alterações da operação aberta são gravadas sozinhas e os colegas as recebem em até ~20 s.</p><div class="bar"><button id="svop" type="button">Salvar operação atual</button><button id="nwop" type="button">Nova operação</button></div><p class="note" id="opmsg"></p><div class="sx" style="max-height:none" id="ops"></div></section>
 <section class="card"><h2>Resultado</h2><div class="bar"><button id="rel" type="button">Gerar relatório</button><button id="dvg" type="button">Divulgar resultado</button><button id="clr" type="button">Limpar tudo</button></div><div class="grid" id="res"></div><p class="sum" id="red"></p><div class="warn" id="aviso"></div></section>
 <section class="card"><h2>Andamento da operação</h2><div class="grid" id="prog"></div><div id="mares" style="margin-top:14px"></div></section>
-<section class="card"><h2>Ternos, atividade e simulação por turno (cenário provável)</h2><p class="note">Quantidades em movimentos sem bundle (cada contêiner = 1; restow = 2). A coluna Estimado é o plano original de cada turno. Ao lançar o Real, ele substitui o estimado nesse turno (coluna Considerado), e os turnos abaixo do último real mostram o estimado recalculado a partir do saldo que sobrou. O tempo continua considerando o bundle: 1 movimento de guindaste = 7, 6 ou 4 unidades, conforme o tipo.</p><div class="sx" id="tab"></div></section>
+<section class="card"><h2>Ternos, atividade e simulação por turno (cenário provável)</h2><p class="note">Quantidades em movimentos sem bundle (cada contêiner = 1; restow = 2). A coluna Estimado é o plano original de cada turno. Ao lançar o Real, ele substitui o estimado nesse turno (coluna Considerado), e os turnos abaixo do último real mostram o estimado recalculado a partir do saldo que sobrou. O tempo continua considerando o bundle: 1 movimento de guindaste = 7, 6 ou 4 unidades, conforme o tipo.</p><div class="sx" id="tab"></div><div style="margin-top:12px"><button type="button" id="xlbtn" onclick="exportarExcelCosco()">Exportar para o Excel (modelo COSCO)</button><p class="note" id="xlst" style="margin-top:6px"></p></div></section>
 <section class="card"><details><summary>Base histórica (10 navios, ago–nov/2026)</summary><div class="sx" id="his" style="margin-top:10px"></div>
 <p class="note">Movimentos equivalentes = descarga + embarque com bundles (tipo 48 ÷ 7, 40FM ÷ 6) + movimentos extras (reestivas, quando a planilha excede as listas). Término real = planilha; sem ela, último carimbo das listas. Produtividade = movimentos ÷ (ternos médios × horas líquidas), descontando 30 min de parada por período de 6 h (premissa de que o histórico seguiu esse padrão).</p></details></section>
 <section class="card" id="divul" hidden><h2>Divulgar resultado</h2><div class="bar noprint"><button id="dpng" type="button">Baixar imagem (PNG)</button><button id="dtxt" type="button">Copiar texto para WhatsApp</button><button id="dfch" type="button">Fechar</button></div><canvas id="cv" width="1080" height="1350" style="width:100%;max-width:520px;border-radius:12px;display:block;margin:0 auto 10px"></canvas><textarea id="dtx" rows="9"></textarea><p class="note" id="dmsg"></p></section>
@@ -222,4 +222,88 @@ $("ops").addEventListener("click",async e=>{const b=e.target.closest("button");i
 (async()=>{if(!FBX.apiKey||!FBX.projectId){setSync(FBX.erro?"A configuração do banco (linha FB no início do arquivo) está com erro: cole só o apiKey e o projectId, entre aspas. Por enquanto os dados ficam só neste navegador.":"Compartilhamento online ainda não configurado (veja o LEIA-ME-ONLINE). Por enquanto os dados ficam só neste navegador.");return}
  try{await listOps();ON=true;$("opsc").hidden=false;try{CUR=localStorage.getItem("estcosco_cur")||null}catch(e){}LASTJ=JSON.stringify(snap());setSync(OKMSG);setInterval(poll,20000)}
  catch(e){setSync("Sem conexão com o banco online ("+e.message+"). Os dados ficam só neste navegador.")}})();
-</script></body></html>
+</script><script>
+/* Exportar para o Excel (modelo COSCO – aba "OPÇÃO 1") */
+(function(){
+const CT=(()=>{const t=[];for(let n=0;n<256;n++){let c=n;for(let k=0;k<8;k++)c=c&1?0xEDB88320^(c>>>1):c>>>1;t[n]=c>>>0}return t})();
+const crc=b=>{let c=0xFFFFFFFF;for(let i=0;i<b.length;i++)c=CT[(c^b[i])&255]^(c>>>8);return(c^0xFFFFFFFF)>>>0};
+const enc=new TextEncoder();
+function zip(files){const parts=[],cen=[];let off=0;const u16=v=>[v&255,v>>8&255],u32=v=>[v&255,v>>8&255,v>>16&255,v>>>24&255];
+ files.forEach(([name,str])=>{const nb=enc.encode(name),d=enc.encode(str),c=crc(d);
+  const lh=new Uint8Array([0x50,0x4b,3,4,20,0,0,8,0,0,0,0,0,0,...u32(c),...u32(d.length),...u32(d.length),...u16(nb.length),0,0]);
+  parts.push(lh,nb,d);
+  cen.push(new Uint8Array([0x50,0x4b,1,2,20,0,20,0,0,8,0,0,0,0,0,0,...u32(c),...u32(d.length),...u32(d.length),...u16(nb.length),0,0,0,0,0,0,0,0,0,0,0,0,...u32(off)]),nb);
+  off+=lh.length+nb.length+d.length});
+ let cs=0;cen.forEach(x=>cs+=x.length);
+ const end=new Uint8Array([0x50,0x4b,5,6,0,0,0,0,...u16(files.length),...u16(files.length),...u32(cs),...u32(off),0,0]);
+ return new Blob([...parts,...cen,end],{type:"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"})}
+const x=s=>String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+const colN=n=>{let s="";while(n>0){const m=(n-1)%26;s=String.fromCharCode(65+m)+s;n=Math.floor((n-1)/26)}return s};
+const serial=d=>{const t=new Date(d);return (Date.UTC(t.getFullYear(),t.getMonth(),t.getDate(),t.getHours(),t.getMinutes())-Date.UTC(1899,11,30))/864e5};
+// estilos: 0 normal,1 cab verde,2 cab azul,3 data,4 hora,5 data/hora,6 negrito,7 borda texto,8 borda num,9 borda data,10 borda hora,11 formula h:mm,12 borda decimal,13 título
+const STY=`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><numFmts count="3"><numFmt numFmtId="164" formatCode="dd/mm/yyyy"/><numFmt numFmtId="165" formatCode="dd/mm/yyyy\\ hh:mm"/><numFmt numFmtId="166" formatCode="[h]:mm"/></numFmts><fonts count="4"><font><sz val="11"/><name val="Calibri"/></font><font><b/><sz val="11"/><color rgb="FFFFFFFF"/><name val="Calibri"/></font><font><b/><sz val="11"/><name val="Calibri"/></font><font><b/><sz val="14"/><color rgb="FF0B6B3A"/><name val="Calibri"/></font></fonts><fills count="4"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="gray125"/></fill><fill><patternFill patternType="solid"><fgColor rgb="FF0B8A4A"/></patternFill></fill><fill><patternFill patternType="solid"><fgColor rgb="FF0B3C7D"/></patternFill></fill></fills><borders count="2"><border><left/><right/><top/><bottom/><diagonal/></border><border><left style="thin"><color rgb="FF999999"/></left><right style="thin"><color rgb="FF999999"/></right><top style="thin"><color rgb="FF999999"/></top><bottom style="thin"><color rgb="FF999999"/></bottom><diagonal/></border></borders><cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs><cellXfs count="14"><xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0"/><xf numFmtId="0" fontId="1" fillId="2" borderId="1" xfId="0" applyFont="1" applyFill="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center" wrapText="1"/></xf><xf numFmtId="0" fontId="1" fillId="3" borderId="1" xfId="0" applyFont="1" applyFill="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center" wrapText="1"/></xf><xf numFmtId="164" fontId="0" fillId="0" borderId="0" xfId="0" applyNumberFormat="1"/><xf numFmtId="20" fontId="0" fillId="0" borderId="0" xfId="0" applyNumberFormat="1"/><xf numFmtId="165" fontId="0" fillId="0" borderId="1" xfId="0" applyNumberFormat="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center"/></xf><xf numFmtId="0" fontId="2" fillId="0" borderId="0" xfId="0" applyFont="1"/><xf numFmtId="0" fontId="0" fillId="0" borderId="1" xfId="0" applyBorder="1" applyAlignment="1"><alignment horizontal="center"/></xf><xf numFmtId="1" fontId="0" fillId="0" borderId="1" xfId="0" applyNumberFormat="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center"/></xf><xf numFmtId="164" fontId="0" fillId="0" borderId="1" xfId="0" applyNumberFormat="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center"/></xf><xf numFmtId="20" fontId="0" fillId="0" borderId="1" xfId="0" applyNumberFormat="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center"/></xf><xf numFmtId="166" fontId="0" fillId="0" borderId="1" xfId="0" applyNumberFormat="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center"/></xf><xf numFmtId="2" fontId="2" fillId="0" borderId="1" xfId="0" applyNumberFormat="1" applyFont="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center"/></xf><xf numFmtId="0" fontId="3" fillId="0" borderId="0" xfId="0" applyFont="1"/></cellXfs></styleSheet>`;
+function build(L){
+ const rows=L.S.p.rows,n=rows.length,first=7,last=first+n-1,tot=last+1,cells={};
+ const put=(r,c,v,s,f)=>{(cells[r]=cells[r]||[]).push({c,v,s,f})};
+ const nav=($("nav").value||"Navio COSCO").trim();
+ put(1,8,"ESTIMATIVA OPERACIONAL – COSCO (Log-In Logística)",13);
+ put(2,12,"Berço",6);put(2,16,"",0);
+ put(4,10,"NAVIO:",6);put(4,12,nav,6);
+ put(5,8,"Data",1);put(5,9,"DIA DA SEMANA",1);put(5,10,"Período",1);put(5,11,"PLANEJADO",1);put(5,12,"",1);put(5,13,"REALIZADO",2);
+ [14,15,16,17,18,19].forEach(c=>put(5,c,"",2));
+ put(5,26,"Data",1);put(5,27,"JUSTIFICAR",1);put(5,28,"Período",1);put(5,29,"JUSTIFICATIVA",1);
+ [[11,"Ternos",1],[12,"Prev. Mvs",1],[13,"Inicio:",2],[14,"Termino:",2],[15,"Ternos",2],[16,"Movs",2],[17,"Início terno",2],[18,"Fim terno",2],[19,"Tempo operação",2],[8,"",1],[9,"",1],[10,"",1]].forEach(a=>put(6,a[0],a[1],a[2]));
+ rows.forEach((r,i)=>{const R=first+i,k=new Date(r.k),hb=k.getHours(),en=({1:7,7:13,13:19,19:1})[hb]??7;
+  const per=pad(hb)+"X"+pad(en),est=(typeof EST!=="undefined"&&0)||0;
+  const E=L.EST[r.k],tp=TERN[r.k]||DEF,real=r.real||TREAL[r.k]!==undefined;
+  put(R,7,"",0,`IF(H${R}="","",WEEKDAY(H${R}))`);
+  put(R,8,Math.floor(serial(new Date(k.getFullYear(),k.getMonth(),k.getDate()))),9);
+  put(R,9,"",7,`CHOOSE(WEEKDAY(H${R}),"DOM","SEG","TER","QUA","QUI","SEX","SAB")`);
+  put(R,10,per,7);
+  put(R,11,tp,8);
+  put(R,12,Math.round(E!==undefined?E:r.un),8);
+  if(real){put(R,13,hb/24,10);put(R,14,en/24,10)}else{put(R,13,"",10);put(R,14,"",10)}
+  put(R,15,TREAL[r.k]!==undefined?TREAL[r.k]:(r.real?r.n:""),8);
+  put(R,16,REAL[r.k]!==undefined?REAL[r.k]:"",8);
+  put(R,17,"",10);put(R,18,"",10);
+  put(R,19,"",11,`(R${R}-Q${R})*K${R}`);
+  put(R,26,"",9,`IF(H${R}="","",H${R})`);
+  put(R,27,"",7,`IF(Z${R}="","",IF(OR((P${R}*1.13)<L${R},O${R}<>K${R}),"SIM","NÃO"))`);
+  put(R,28,"",7,`IF(J${R}="","",J${R})`);put(R,29,"",7);
+ });
+ put(tot,8,"TOTAL",6);
+ put(tot,11,"",12,`SUM(K${first}:K${last})`);put(tot,12,"",12,`SUM(L${first}:L${last})`);put(tot,15,"",12,`SUM(O${first}:O${last})`);put(tot,16,"",12,`SUM(P${first}:P${last})`);
+ put(tot,17,"Tempo total de ternos (horas)",6);put(tot,19,"",11,`SUM(S${first}:S${last})`);
+ put(tot+1,15,"SALDO",6);put(tot+1,16,"",12,`L${tot}-P${tot}`);
+ put(tot+1,17,"Tempo total de ternos (decimal)",6);put(tot+1,19,"",12,`S${tot}/0.0416666666666667`);
+ put(tot+1,12,"",12,`${Math.round(L.units)}-L${tot}`);put(tot+1,11,"Total COSCO (sem bundle):",6);
+ const bl=tot+3;
+ put(bl,8,"ATRACAÇÃO:",6);put(bl,11,"",5);
+ put(bl+2,8,"LIBERAÇÃO",6);put(bl+2,11,"",5);
+ put(bl+4,8,"INÍCIO:",6);put(bl+4,11,serial(L.st),5);
+ put(bl+6,8,"PREVISÃO TÉRMINO:",6);put(bl+6,11,serial(L.S.p.end),5);
+ put(bl+8,8,"TIDE OUT",6);
+ L.td.forEach((m,i)=>put(bl+8+i,11,`${m.nm}: ${win(m)}`,0));
+ const rr=Object.keys(cells).map(Number).sort((a,b)=>a-b);
+ const sd=rr.map(r=>`<row r="${r}"${r===6||r===5?' ht="30" customHeight="1"':""}>`+cells[r].sort((a,b)=>a.c-b.c).map(o=>{const ref=colN(o.c)+r,s=o.s?` s="${o.s}"`:"";
+  if(o.f)return `<c r="${ref}"${s}><f>${x(o.f)}</f></c>`;
+  if(typeof o.v==="number")return `<c r="${ref}"${s}><v>${o.v}</v></c>`;
+  if(o.v==="")return `<c r="${ref}"${s}/>`;
+  return `<c r="${ref}"${s} t="inlineStr"><is><t>${x(o.v)}</t></is></c>`}).join("")+"</row>").join("");
+ const sheet=`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><sheetViews><sheetView workbookViewId="0" showGridLines="0"/></sheetViews><cols><col min="1" max="7" width="3" customWidth="1"/><col min="8" max="8" width="13" customWidth="1"/><col min="9" max="10" width="14" customWidth="1"/><col min="11" max="12" width="12" customWidth="1"/><col min="13" max="19" width="13" customWidth="1"/><col min="26" max="26" width="12" customWidth="1"/><col min="27" max="28" width="12" customWidth="1"/><col min="29" max="29" width="30" customWidth="1"/></cols><sheetData>${sd}</sheetData><mergeCells count="3"><mergeCell ref="K5:L5"/><mergeCell ref="M5:S5"/><mergeCell ref="H1:S1"/></mergeCells></worksheet>`;
+ return zip([
+ ["[Content_Types].xml",`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/worksheets/sheet1.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/><Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/></Types>`],
+ ["_rels/.rels",`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>`],
+ ["xl/workbook.xml",`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheets><sheet name="OPÇÃO 1" sheetId="1" r:id="rId1"/></sheets><calcPr calcId="162913" fullCalcOnLoad="1"/></workbook>`],
+ ["xl/_rels/workbook.xml.rels",`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet1.xml"/><Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/></Relationships>`],
+ ["xl/styles.xml",STY],["xl/worksheets/sheet1.xml",sheet]]);
+}
+window.exportarExcelCosco=function(){const st=$("xlst");try{if(!LAST||!LAST.S){st.textContent="Preencha os volumes antes de exportar.";return}
+ const b=build(LAST),nm=(($("nav").value||"COSCO").trim().replace(/[\\\/:*?"<>|]+/g," ")),a=document.createElement("a");
+ a.href=URL.createObjectURL(b);a.download="ESTIMATIVA OPERACIONAL - "+nm+".xlsx";document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},2000);
+ st.textContent="Arquivo gerado no modelo COSCO: "+LAST.S.p.rows.length+" turno(s) exportado(s)."}catch(e){st.textContent="Não foi possível gerar o Excel: "+e.message}};
+window.__xlBuild=build;
+})();
+
+</script>
+</body></html>
